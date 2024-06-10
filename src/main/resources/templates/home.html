@@ -171,7 +171,16 @@
             <img th:src="${tempMovie.photoUrl}">
             <div class="card-content">
                 <p class="movie-name" th:text="${tempMovie.name}"/>
+                <form th:action="@{/home/buy-tickets}" method="post">
 
+                    <input type="hidden" name="userId" th:value="${userId}"/>
+                    <input type="hidden" name="movieId" th:value="${tempMovie.id}" />
+
+                    <label for="numberOfTickets">Number of Tickets:</label>
+                    <input type="number" id="numberOfTickets" name="numberOfTickets" required />
+
+                    <button type="submit">Buy Tickets</button>
+                </form>
                 <div class="movie-info">
                     <p class="time">11:30 <span>14:45<span class="d3">3D</span> 16:05<span class="d3">3D</span></span> 18:40 21:00 23:15</p>
                 </div>
