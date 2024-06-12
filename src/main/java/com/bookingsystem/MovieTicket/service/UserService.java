@@ -28,9 +28,13 @@ public class UserService {
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof CustomUserDetails) {
-            // Извлекаем пользователя из объекта CustomUserDetails и получаем его идентификатор
             return ((CustomUserDetails) authentication.getPrincipal()).getId();
         }
-        return null; // Или бросьте исключение, если пользователь не аутентифицирован или не найден
+        System.out.println("user not found");
+        return null;
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
