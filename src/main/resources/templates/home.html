@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!---font icon CDN----->
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -170,23 +171,25 @@
         <div class="card">
             <img th:src="${tempMovie.photoUrl}">
             <div class="card-content">
-                <p class="movie-name" th:text="${tempMovie.name}"/>
-                <form th:action="@{/home/buy-tickets}" method="post">
-
-                    <input type="hidden" name="userId" th:value="${userId}"/>
-                    <input type="hidden" name="movieId" th:value="${tempMovie.id}" />
-
-                    <label for="numberOfTickets">Number of Tickets:</label>
-                    <input type="number" id="numberOfTickets" name="numberOfTickets" required />
-
-                    <button type="submit">Buy Tickets</button>
-                </form>
-                <div class="movie-info">
+                <div class="movie-header">
+                    <p class="movie-name" th:text="${tempMovie.name}"></p>
                     <p class="time">11:30 <span>14:45<span class="d3">3D</span> 16:05<span class="d3">3D</span></span> 18:40 21:00 23:15</p>
                 </div>
+                <form th:action="@{/home/add-to-cart}" method="post">
+                    <input type="hidden" name="userId" th:value="${userId}"/>
+                    <input type="hidden" name="movieId" th:value="${tempMovie.id}" />
+                    <label for="numberOfTickets">Number of Tickets:</label>
+                    <div class="quantity">
+                        <button class="minus" aria-label="Decrease">&minus;</button>
+                        <input type="number" id="numberOfTickets" class="input-box" value="1" name="numberOfTickets" min="1" max="30" required>
+                        <button class="plus" aria-label="Increase">&plus;</button>
+                    </div>
+                    <button type="submit" class="buyButton">Add to cart</button>
+                </form>
             </div>
         </div>
     </div>
+
 
     <!---movie-card--->
 
@@ -227,5 +230,6 @@
 </footer>
 
 <script src="/js/script.js"></script>
+<script src="/js/button.js"></script>
 </body>
 </html>

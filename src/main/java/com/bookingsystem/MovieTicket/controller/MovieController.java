@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -26,6 +26,7 @@ public class MovieController {
     @Autowired
     private UserService userService;
 
+
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model theModel) {
         Movies movies = new Movies();
@@ -33,15 +34,14 @@ public class MovieController {
         return "movie-form";
     }
 
-
     @PostMapping("/save-movie")
-    public String saveEmployee(@ModelAttribute("movie") Movies movies) {
+    public String saveMovie(@ModelAttribute("movie") Movies movies) {
         moviesService.addMovie(movies);
         return "redirect:/home";
     }
 
-    @PostMapping("/buy-tickets")
-    public String buyTicket(
+    @PostMapping("/add-to-cart")
+    public String AddToCart(
             @RequestParam Long movieId,
             @RequestParam Long userId,
             @RequestParam int numberOfTickets
@@ -54,7 +54,7 @@ public class MovieController {
                 User user = userOptional.get();
                 UserMovie userMovie = new UserMovie(user, movie, numberOfTickets);
                 userMovieService.save(userMovie);
-                return "redirect:/home";
+                return "redirect:/home/cart";
             } else {
                 return "redirect:/error-page?message=User not found";
             }
@@ -63,4 +63,26 @@ public class MovieController {
         }
     }
 
+    @GetMapping("/cart")
+    public String cartPage(Model theModel) {
+        List<UserMovie> userMovies = userMovieService.findAllByActiveFalse();
+        theModel.addAttribute("userMovie", userMovies);
+        return "cart";
+    }
+
+    @PostMapping("/cart/remove/{id}")
+    public String removeFromCart(@PathVariable Long id) {
+        userMovieService.delete(id);
+        return "redirect:/home/cart";
+    }
+    @PostMapping("/cart/removeAll")
+    public String removeAllCart(){
+        userMovieService.delteAll();
+        return "redirect:/home/cart";
+    }
+    @PostMapping("/cart/buy")
+    public String buyTickets(){
+        userMovieService.activateTickets();
+        return "redirect:/home";
+    }
 }

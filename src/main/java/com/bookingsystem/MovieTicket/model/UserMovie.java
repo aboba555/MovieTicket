@@ -2,6 +2,8 @@ package com.bookingsystem.MovieTicket.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "user_movie")
@@ -20,6 +22,8 @@ public class UserMovie {
     private Movies movie;
 
     private int numberOfTickets;
+
+    private boolean active = false;
 
     public UserMovie() {}
 
