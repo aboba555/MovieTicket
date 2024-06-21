@@ -1,49 +1,22 @@
-(function () {
-    const quantityContainer = document.querySelector(".quantity");
-    const minusBtn = quantityContainer.querySelector(".minus");
-    const plusBtn = quantityContainer.querySelector(".plus");
-    const inputBox = quantityContainer.querySelector(".input-box");
-
-    updateButtonStates();
-
-    quantityContainer.addEventListener("click", handleButtonClick);
-    inputBox.addEventListener("input", handleQuantityChange);
-
-    function updateButtonStates() {
-        const value = parseInt(inputBox.value);
-        minusBtn.disabled = value <= 1;
-        plusBtn.disabled = value >= parseInt(inputBox.max);
-    }
-
-    function handleButtonClick(event) {
+document.querySelectorAll('.minus').forEach(button => {
+    button.addEventListener('click', function(event) {
         event.preventDefault();
-        if (event.target.classList.contains("minus")) {
-            decreaseValue();
-        } else if (event.target.classList.contains("plus")) {
-            increaseValue();
+        let input = this.nextElementSibling;
+        let value = parseInt(input.value);
+        if (value > 1) {
+            input.value = value - 1;
         }
-    }
+    });
+});
 
-    function decreaseValue() {
-        let value = parseInt(inputBox.value);
-        value = isNaN(value) ? 1 : Math.max(value - 1, 1);
-        inputBox.value = value;
-        updateButtonStates();
-        handleQuantityChange();
-    }
-
-    function increaseValue() {
-        let value = parseInt(inputBox.value);
-        value = isNaN(value) ? 1 : Math.min(value + 1, parseInt(inputBox.max));
-        inputBox.value = value;
-        updateButtonStates();
-        handleQuantityChange();
-    }
-
-    function handleQuantityChange() {
-        let value = parseInt(inputBox.value);
-        value = isNaN(value) ? 1 : value;
-
-        console.log("Quantity changed:", value);
-    }
-})();
+document.querySelectorAll('.plus').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        let input = this.previousElementSibling;
+        let value = parseInt(input.value);
+        let max = parseInt(input.max);
+        if (value < max) {
+            input.value = value + 1;
+        }
+    });
+});

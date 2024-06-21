@@ -1,9 +1,11 @@
 package com.bookingsystem.MovieTicket.controller;
 
 import com.bookingsystem.MovieTicket.model.Movies;
+import com.bookingsystem.MovieTicket.model.Sessions;
 import com.bookingsystem.MovieTicket.model.User;
 import com.bookingsystem.MovieTicket.model.UserMovie;
 import com.bookingsystem.MovieTicket.service.MoviesService;
+import com.bookingsystem.MovieTicket.service.SessionsService;
 import com.bookingsystem.MovieTicket.service.UserMovieService;
 import com.bookingsystem.MovieTicket.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class MovieController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SessionsService sessionsService;
+
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model theModel) {
@@ -34,9 +39,24 @@ public class MovieController {
         return "movie-form";
     }
 
+    @GetMapping("/showFormForSession")
+    public String showFormForSession(Model theModel){
+        Sessions sessions = new Sessions();
+        List<Movies> movies = moviesService.findAll();
+        theModel.addAttribute("movie", movies);
+        theModel.addAttribute("session",sessions);
+        return "session-form";
+    }
+
     @PostMapping("/save-movie")
     public String saveMovie(@ModelAttribute("movie") Movies movies) {
         moviesService.addMovie(movies);
+        return "redirect:/home";
+    }
+
+    @PostMapping("/save-session")
+    public String saveMovie(@ModelAttribute("session") Sessions sessions) {
+        sessionsService.save(sessions);
         return "redirect:/home";
     }
 

@@ -7,44 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!---font icon CDN----->
-
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <!----carousel cdn--->
     <link rel="stylesheet" href="/css/main.css">
-
-
 </head>
 <body>
-<!----movie site template---->
-
 <header>
     <nav>
         <p class="logo">
             multi<span>flex</span>
         </p>
-
         <i class="fa fa-bars" id="menu"></i>
-
         <ul id="menu-box">
             <div class="marker"></div>
             <li>main</li>
-            <li>schedlues</li>
+            <li>schedules</li>
             <li>tickets</li>
             <li>news</li>
-            <li>contact</li>
+            <li> <b> <a th:href="@{/home/cart}"> Cart</a> </b> </li>
             <li><b><a th:href="@{/logout}">Logout</a></b></li>
         </ul>
-
     </nav>
-
     <div class="popular-movie-slider">
-
         <img src="https://imageio.forbes.com/blogs-images/scottmendelson/files/2014/10/2v00kg8.jpg?format=jpg&width=1200" class="poster">
-
         <div class="popular-movie-slider-content">
             <p class="release">2017</p>
             <h2 class="movie-name">Interstellar</h2>
@@ -54,27 +40,19 @@
                 <li>action</li>
             </ul>
             <p class="desc">Interstellar is a 2014 epic science fiction film co-written, directed, and produced by Christopher Nolan. It stars Matthew McConaughey, Anne Hathaway, Jessica Chastain, Bill Irwin, Ellen Burstyn, Matt Damon, and Michael Caine. Set in a dystopian future where humanity is embroiled in a catastrophic blight and famine, the film follows a group of astronauts who travel through a wormhole near Saturn in search of a new home for humankind.</p>
-
             <div class="movie-info">
                 <i class="fa fa-clock-o"> &nbsp;&nbsp;&nbsp;<span>164 min.</span></i>
                 <i class="fa fa-volume-up"> &nbsp;&nbsp;&nbsp;<span>Subtitles</span></i>
                 <i class="fa fa-circle"> &nbsp;&nbsp;&nbsp;<span>Imdb: <b>9.1/10</b></span></i>
             </div>
-
             <div class="movie-btns">
                 <button><i class="fa fa-play"></i> &nbsp; Watch trailer</button>
                 <button class="read-more"><i class="fa fa-circle"></i> <i class="fa fa-circle"></i> <i class="fa fa-circle"></i>&nbsp; Read more</button>
             </div>
-
         </div>
-
     </div>
-    <!---slider--->
-
 </header>
-
 <section>
-
     <div class="movie-ticket-book">
         <div class="choose-date">
             <p class="heading">
@@ -82,9 +60,8 @@
             </p>
             <div class="wrapper">
                 <div class="carousel owl-carousel">
-
                     <div class="card card-1">
-                        <p>JUN 1t</p>
+                        <p>JUN 1st</p>
                         <p>MON</p>
                     </div>
                     <div class="card card-2">
@@ -92,12 +69,12 @@
                         <p>TUE</p>
                     </div>
                     <div class="card card-3">
-                        <p>JUN 3nd</p>
-                        <p>wed</p>
+                        <p>JUN 3rd</p>
+                        <p>WED</p>
                     </div>
                     <div class="card card-4">
-                        <p>JUN 4nd</p>
-                        <p>thu</p>
+                        <p>JUN 4th</p>
+                        <p>THU</p>
                     </div>
                 </div>
                 <div class="marker"></div>
@@ -105,11 +82,10 @@
         </div>
         <div class="choose-time">
             <p class="heading">
-                avalible times:
+                available times:
             </p>
             <div class="wrapper">
                 <div class="carousel owl-carousel">
-
                     <div class="card card-1">
                         <p>3D</p>
                         <p>14:45</p>
@@ -132,40 +108,28 @@
         </div>
         <button>Buy ticket</button>
     </div>
-    <!---movie-ticket-book-->
-
-
     <div class="filter-search-box">
-
         <div class="filters-box">
-
             <div class="all-filters filters">
                 All formats <i class="fa fa-angle-down"></i>
             </div>
-
             <div class="date-filters filters">
                 By Date <i class="fa fa-angle-down"></i>
             </div>
-
             <div class="category-filters filters">
                 By category <i class="fa fa-angle-down"></i>
             </div>
-
             <div class="category-filters filters">
                 Coming soon
             </div>
-
         </div>
-
         <div class="search-filters">
             <input type="text" placeholder="Search by name...">
             <i class="fa fa-search"></i>
         </div>
-
         <div class="search-bar">
             <div class="bar"></div>
         </div>
-
     </div>
     <div class="movie-card-section" th:each="tempMovie:${movies}">
         <div class="card">
@@ -178,10 +142,10 @@
                 <form th:action="@{/home/add-to-cart}" method="post">
                     <input type="hidden" name="userId" th:value="${userId}"/>
                     <input type="hidden" name="movieId" th:value="${tempMovie.id}" />
-                    <label for="numberOfTickets">Number of Tickets:</label>
+                    <label for="numberOfTickets${tempMovie.id}">Number of Tickets:</label>
                     <div class="quantity">
                         <button class="minus" aria-label="Decrease">&minus;</button>
-                        <input type="number" id="numberOfTickets" class="input-box" value="1" name="numberOfTickets" min="1" max="30" required>
+                        <input type="number" id="numberOfTickets${tempMovie.id}" class="input-box" value="1" name="numberOfTickets" min="1" max="30" required>
                         <button class="plus" aria-label="Increase">&plus;</button>
                     </div>
                     <button type="submit" class="buyButton">Add to cart</button>
@@ -189,47 +153,35 @@
             </div>
         </div>
     </div>
-
-
-    <!---movie-card--->
-
     <div class="show">
         <div class="show-bar">
             <div class="bar"></div>
         </div>
         <button>Show more</button>
     </div>
-    <!---bar--->
-
-
 </section>
 <footer>
-
     <div class="logo-box">
         <p class="logo">
             multi<span>flex</span>
         </p>
         <p><i class="fa fa-copyright"></i> 2001-2017, SIA Multiflex</p>
     </div>
-
     <ul>
         <li>main</li>
-        <li>schedlues</li>
+        <li>schedules</li>
         <li>tickets</li>
         <li>news</li>
         <li>contact</li>
     </ul>
-
-
-    <div class="socail-box">
+    <div class="social-box">
         <i class="fa fa-facebook-f"></i>
         <i class="fa fa-twitter"></i>
         <i class="fa fa-instagram"></i>
     </div>
-
 </footer>
-
 <script src="/js/script.js"></script>
 <script src="/js/button.js"></script>
+<script src="/js/quantity.js"></script>
 </body>
 </html>
