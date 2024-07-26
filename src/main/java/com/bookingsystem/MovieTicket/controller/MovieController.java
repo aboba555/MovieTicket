@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,12 +60,12 @@ public class MovieController {
         sessionsService.save(sessions);
         return "redirect:/home";
     }
-
     @PostMapping("/add-to-cart")
     public String AddToCart(
             @RequestParam Long movieId,
             @RequestParam Long userId,
-            @RequestParam int numberOfTickets
+            @RequestParam int numberOfTickets,
+            @RequestParam LocalTime sessionTime
     ) {
         Optional<Movies> movieOptional = moviesService.findById(movieId);
         if (movieOptional.isPresent()) {
@@ -72,9 +73,14 @@ public class MovieController {
             Optional<User> userOptional = userService.findById(userId);
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                UserMovie userMovie = new UserMovie(user, movie, numberOfTickets);
-                userMovieService.save(userMovie);
-                return "redirect:/home/cart";
+                Sessions session = sessionsService.findByTimeAndMovieId(sessionTime, movieId);
+                if (session != null) {
+                    UserMovie userMovie = new UserMovie(user, movie, session, numberOfTickets);
+                    userMovieService.save(userMovie);
+                    return "redirect:/home/cart";
+                } else {
+                    return "redirect:/error-page?message=Session not found";
+                }
             } else {
                 return "redirect:/error-page?message=User not found";
             }

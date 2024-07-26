@@ -25,7 +25,7 @@
             <li>schedules</li>
             <li>tickets</li>
             <li>news</li>
-            <li> <b> <a th:href="@{/home/cart}"> Cart</a> </b> </li>
+            <li><b><a th:href="@{/home/cart}">Cart</a></b></li>
             <li><b><a th:href="@{/logout}">Logout</a></b></li>
         </ul>
     </nav>
@@ -41,12 +41,12 @@
             </ul>
             <p class="desc">Interstellar is a 2014 epic science fiction film co-written, directed, and produced by Christopher Nolan. It stars Matthew McConaughey, Anne Hathaway, Jessica Chastain, Bill Irwin, Ellen Burstyn, Matt Damon, and Michael Caine. Set in a dystopian future where humanity is embroiled in a catastrophic blight and famine, the film follows a group of astronauts who travel through a wormhole near Saturn in search of a new home for humankind.</p>
             <div class="movie-info">
-                <i class="fa fa-clock-o"> &nbsp;&nbsp;&nbsp;<span>164 min.</span></i>
-                <i class="fa fa-volume-up"> &nbsp;&nbsp;&nbsp;<span>Subtitles</span></i>
-                <i class="fa fa-circle"> &nbsp;&nbsp;&nbsp;<span>Imdb: <b>9.1/10</b></span></i>
+                <i class="fa fa-clock-o">&nbsp;&nbsp;&nbsp;<span>164 min.</span></i>
+                <i class="fa fa-volume-up">&nbsp;&nbsp;&nbsp;<span>Subtitles</span></i>
+                <i class="fa fa-circle">&nbsp;&nbsp;&nbsp;<span>Imdb: <b>9.1/10</b></span></i>
             </div>
             <div class="movie-btns">
-                <button><i class="fa fa-play"></i> &nbsp; Watch trailer</button>
+                <button><i class="fa fa-play"></i>&nbsp; Watch trailer</button>
                 <button class="read-more"><i class="fa fa-circle"></i> <i class="fa fa-circle"></i> <i class="fa fa-circle"></i>&nbsp; Read more</button>
             </div>
         </div>
@@ -137,7 +137,6 @@
             <div class="card-content">
                 <div class="movie-header">
                     <p class="movie-name" th:text="${tempMovie.name}"></p>
-                    <p class="time">11:30 <span>14:45<span class="d3">3D</span> 16:05<span class="d3">3D</span></span> 18:40 21:00 23:15</p>
                 </div>
                 <form th:action="@{/home/add-to-cart}" method="post">
                     <input type="hidden" name="userId" th:value="${userId}"/>
@@ -148,11 +147,16 @@
                         <input type="number" id="numberOfTickets${tempMovie.id}" class="input-box" value="1" name="numberOfTickets" min="1" max="30" required>
                         <button class="plus" aria-label="Increase">&plus;</button>
                     </div>
+                    <label for="showtime${tempMovie.id}">Choose Showtime:</label>
+                    <select id="showtime${tempMovie.id}" name="sessionTime" required>
+                        <option th:each="sessionItem : ${sessionsMap[tempMovie.id]}" th:value="${sessionItem.timeStartSession}" th:text="${sessionItem.timeStartSession}"></option>
+                    </select>
                     <button type="submit" class="buyButton">Add to cart</button>
                 </form>
             </div>
         </div>
     </div>
+
     <div class="show">
         <div class="show-bar">
             <div class="bar"></div>
@@ -182,6 +186,5 @@
 </footer>
 <script src="/js/script.js"></script>
 <script src="/js/button.js"></script>
-<script src="/js/quantity.js"></script>
 </body>
 </html>

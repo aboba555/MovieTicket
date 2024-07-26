@@ -17,6 +17,7 @@
                 <th>Movie</th>
                 <th>Number of Tickets</th>
                 <th>Price</th>
+                <th>Time</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -25,6 +26,7 @@
                 <td th:text="${tempMovieUser.movie.name}"></td>
                 <td th:text="${tempMovieUser.numberOfTickets}"></td>
                 <td th:text="${tempMovieUser.movie.price}*${tempMovieUser.numberOfTickets} + ' $'"></td>
+                <td th:text="${tempMovieUser.session.timeStartSession}"></td>
                 <td>
                     <form th:action="@{/home/cart/remove/{id}(id=${tempMovieUser.id})}" method="post">
                         <button type="submit" class="btn btn-danger btn-sm">Remove</button>
