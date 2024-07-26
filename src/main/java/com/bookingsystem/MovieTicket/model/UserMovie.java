@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalTime;
+
 @Entity
 @Table(name = "user_movie")
 @Data
@@ -21,15 +23,20 @@ public class UserMovie {
     @JoinColumn(name = "movie_id", nullable = false)
     private Movies movie;
 
+    @ManyToOne
+    @JoinColumn(name = "session_id", nullable = false)
+    private Sessions session;
+
     private int numberOfTickets;
 
     private boolean active = false;
 
     public UserMovie() {}
 
-    public UserMovie(User user, Movies movie, int numberOfTickets) {
+    public UserMovie(User user, Movies movie, Sessions session, int numberOfTickets) {
         this.user = user;
         this.movie = movie;
+        this.session = session;
         this.numberOfTickets = numberOfTickets;
     }
 }
